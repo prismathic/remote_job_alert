@@ -36,7 +36,22 @@ const Jobs = {
     let allMain = await allData.json();
 
     //@Ayo this is why I said you should make them constant variables, I'm tired of calling. 
-    allMain.forEach(element => {
+    // allMain.forEach(element => {
+    //   let title = element.title;
+    //   let company = element.company;
+    //   let url = title + ' ' + company;
+    //   let regex = /[\.\ \]\[\(\)\!\,\<\>\`\~\{\}\?\/\\\"\'\|\@\%\&\*]/g;
+    //   let custom_url = url.toLowerCase().replace(regex, '-');
+    //   element.custom_url = custom_url;
+    // });
+    
+
+
+    try {
+      //Get the id of the slug that was just formed
+    const newMain = allMain.map(element => {element});
+
+    newMain.forEach(element => {
       let title = element.title;
       let company = element.company;
       let url = title + ' ' + company;
@@ -44,22 +59,21 @@ const Jobs = {
       let custom_url = url.toLowerCase().replace(regex, '-');
       element.custom_url = custom_url;
     });
-    //Get the id of the slug that was just formed
-    allMain.forEach(element => {
+
+    newMain.forEach(element => {
       if (slug == element.custom_url) {
-         id = element.id;
-         key = indexOf(element)
+        const id = element.id;
+        const key = indexOf(element);
+
+        return key
       }
-      // else {
-      //   continue;
-      // }
     });
 
 
-    try {
-      let data = await fetch("https://jobs.github.com/positions/" + id + ".json");
+      // let data = await fetch("https://jobs.github.com/positions/" + id + ".json");
 
-      let main = await data.json();
+      let main = allMain[key];
+      // await data.json();
 
       let similar_data_query = "https://jobs.github.com/positions.json?description=" + encodeURIComponent(main.title.slice(0, 10));
 
